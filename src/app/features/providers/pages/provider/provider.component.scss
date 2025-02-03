@@ -1,0 +1,23 @@
+.p-fluid {
+  width: 100%;
+  max-width: 600px;
+
+  .p-field {
+    margin-bottom: 1em;
+  }
+}
+
+.p-error {
+  font-size: 0.875rem;
+  color: #f44336;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+}
+
+.p-field {
+  display: flex;
+  flex-direction: column;
+}

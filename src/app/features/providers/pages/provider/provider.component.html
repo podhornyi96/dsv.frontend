@@ -1,0 +1,40 @@
+@if(userForm) {
+    <div class="card-container">
+        <div class="p-fluid">
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <div class="p-field">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" type="text" pInputText formControlName="firstName" />
+                    <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="p-error">
+                        First Name is required
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" type="text" pInputText formControlName="lastName" />
+                    <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="p-error">
+                        Last Name is required
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" pInputText formControlName="email" />
+                    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="p-error">
+                        Please enter a valid email
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="description">Description</label>
+                    <textarea id="description" pInputTextarea formControlName="description"></textarea>
+                </div>
+
+                <button type="submit" pButton label="Submit" [disabled]="userForm.invalid"></button>
+            </form>
+        </div>
+    </div>
+}
+
+<p-toast />
