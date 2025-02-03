@@ -27,7 +27,7 @@ import {ProviderServicesComponent} from "../../components/provider-services/prov
     styleUrl: './provider.component.scss'
 })
 export class ProviderComponent implements OnInit {
-    userForm?: FormGroup;
+    providerForm?: FormGroup;
     providerId?: number;
 
     constructor(private fb: FormBuilder,
@@ -47,7 +47,7 @@ export class ProviderComponent implements OnInit {
     }
 
     onSubmit() {
-        const isEdit = !!this.userForm?.get('id')?.value;
+        const isEdit = !!this.providerForm?.get('id')?.value;
 
         if (isEdit) {
             this.editProvider();
@@ -57,7 +57,7 @@ export class ProviderComponent implements OnInit {
     }
 
     private createProvider(): void {
-        const provider = this.userForm?.getRawValue();
+        const provider = this.providerForm?.getRawValue();
 
         this.providerService.createProvider({
             firstName: provider.firstName,
@@ -65,7 +65,7 @@ export class ProviderComponent implements OnInit {
             email: provider.email,
             description: provider.description,
         }).pipe(take(1)).subscribe((provider) => {
-            this.userForm?.get('id')?.patchValue(provider.id);
+            this.providerForm?.get('id')?.patchValue(provider.id);
             this.messageService.add({
                 severity: 'success',
                 summary: 'Info', detail: 'Provider was created successfully', life: 3000
@@ -74,7 +74,7 @@ export class ProviderComponent implements OnInit {
     }
 
     private editProvider(): void {
-        const provider = this.userForm?.getRawValue();
+        const provider = this.providerForm?.getRawValue();
 
         this.providerService.editProvider(provider.id, {
             id: provider.id,
@@ -99,7 +99,7 @@ export class ProviderComponent implements OnInit {
     }
 
     private buildForm(provider?: IProvider): void {
-        this.userForm = this.fb.group({
+        this.providerForm = this.fb.group({
             id: [provider?.id ?? '',],
             firstName: [provider?.firstName ?? '', Validators.required],
             lastName: [provider?.lastName ?? '', Validators.required],

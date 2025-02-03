@@ -5,6 +5,10 @@ import {IProviderService} from "../../models/provider-service";
 import {ProviderServicesService} from "../../services/provider-services.service";
 import {TableModule} from "primeng/table";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {Button} from "primeng/button";
+import {Dialog} from "primeng/dialog";
+import {ProviderServiceModalComponent} from "../provider-service-modal/provider-service-modal.component";
+import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'dsv-provider-services',
@@ -12,6 +16,9 @@ import {AsyncPipe, NgIf} from "@angular/common";
         TableModule,
         NgIf,
         AsyncPipe,
+        Button,
+        Dialog,
+        ProviderServiceModalComponent,
     ],
     templateUrl: './provider-services.component.html',
     styleUrl: './provider-services.component.scss'
@@ -27,7 +34,10 @@ export class ProviderServicesComponent implements OnInit {
     rows: number = 3; // Items per page
     first: number = 0;
 
-    constructor(private providerServicesService: ProviderServicesService) {
+    showModal = false;
+
+    constructor(private providerServicesService: ProviderServicesService,
+                private messageService: MessageService) {
     }
 
     onPage(event: any) {
@@ -42,5 +52,20 @@ export class ProviderServicesComponent implements OnInit {
                 return this.providerServicesService.getProviderServices(this.providerId!, offset, this.rows)
             })
         )
+    }
+
+    addProviderService(): void {
+        this.showModal = true;
+    }
+
+    handleProviderAdded(providerService: IProviderService): void {
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Info', detail: `Provider service ${providerService.name} was added`, life: 3000
+        });
+
+        this.showModal = false;
+
+        this.pagination.next(0);
     }
 }

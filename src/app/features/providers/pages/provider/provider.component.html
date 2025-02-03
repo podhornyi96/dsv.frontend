@@ -1,11 +1,11 @@
-@if(userForm) {
+@if(providerForm) {
     <div class="card-container">
         <div class="p-fluid">
-            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="providerForm" (ngSubmit)="onSubmit()">
                 <div class="p-field">
                     <label for="firstName">First Name</label>
                     <input id="firstName" type="text" pInputText formControlName="firstName" />
-                    <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="p-error">
+                    <div *ngIf="providerForm.get('firstName')?.invalid && providerForm.get('firstName')?.touched" class="p-error">
                         First Name is required
                     </div>
                 </div>
@@ -13,7 +13,7 @@
                 <div class="p-field">
                     <label for="lastName">Last Name</label>
                     <input id="lastName" type="text" pInputText formControlName="lastName" />
-                    <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="p-error">
+                    <div *ngIf="providerForm.get('lastName')?.invalid && providerForm.get('lastName')?.touched" class="p-error">
                         Last Name is required
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="p-field">
                     <label for="email">Email</label>
                     <input id="email" type="email" pInputText formControlName="email" />
-                    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="p-error">
+                    <div *ngIf="providerForm.get('email')?.invalid && providerForm.get('email')?.touched" class="p-error">
                         Please enter a valid email
                     </div>
                 </div>
@@ -31,16 +31,20 @@
                     <textarea id="description" pInputTextarea formControlName="description"></textarea>
                 </div>
 
-                <button type="submit" pButton label="Submit" [disabled]="userForm.invalid"></button>
+                <button type="submit" pButton label="Submit" [disabled]="providerForm.invalid"></button>
             </form>
         </div>
     </div>
 }
 
-<div class="card-container">
-    @if (providerId) {
-        <dsv-provider-services [providerId]="providerId"></dsv-provider-services>
-    }
+
+<div class="provider-services">
+    <div class="p-fluid">
+        @if (providerId) {
+            <dsv-provider-services [providerId]="providerId"></dsv-provider-services>
+        }
+    </div>
+
 </div>
 
 

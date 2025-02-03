@@ -1,0 +1,41 @@
+@if (providerServiceForm) {
+
+    <div class="p-fluid">
+        <form [formGroup]="providerServiceForm" (ngSubmit)="onSubmit()">
+            <div class="p-field">
+                <label for="service">Service</label>
+
+                <p-dropdown
+                        id="service"
+                        formControlName="serviceId"
+                        [options]="services$ | async"
+                        optionLabel="name"
+                        optionValue="id"
+                        placeholder="Select a service">
+                </p-dropdown>
+
+                <div *ngIf="providerServiceForm.get('serviceId')?.invalid && providerServiceForm.get('serviceId')?.touched" class="p-error">
+                    Service is required
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="durationMinutes">Duration minutes</label>
+                <input id="durationMinutes" type="number" pInputText formControlName="durationMinutes" />
+                <div *ngIf="providerServiceForm.get('durationMinutes')?.invalid && providerServiceForm.get('durationMinutes')?.touched" class="p-error">
+                    Duration minutes is required
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="pricePerHour">Price per hour $</label>
+                <input id="pricePerHour" type="number" pInputText formControlName="pricePerHour" />
+                <div *ngIf="providerServiceForm.get('pricePerHour')?.invalid && providerServiceForm.get('pricePerHour')?.touched" class="p-error">
+                    Price per hour is required
+                </div>
+            </div>
+
+            <button type="submit" pButton label="Submit" [disabled]="providerServiceForm.invalid"></button>
+        </form>
+    </div>
+}

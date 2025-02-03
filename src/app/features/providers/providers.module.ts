@@ -6,6 +6,7 @@ import {ProvidersService} from "./services/providers.service";
 import {HttpClientModule} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {ProviderServicesService} from "./services/provider-services.service";
+import {ServicesService} from "./services/services.service";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {ProviderServicesService} from "./services/provider-services.service";
     providers: [
         ProvidersService,
         MessageService,
-        ProviderServicesService
+        ProviderServicesService,
+        ServicesService
     ]
 })
 export class ProvidersModule {

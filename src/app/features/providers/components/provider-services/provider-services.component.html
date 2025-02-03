@@ -33,3 +33,12 @@
         </ng-template>
     </p-table>
 </ng-container>
+
+<div class="add-btn">
+    <p-button (onClick)="addProviderService()" label="Add provider service +"></p-button>
+</div>
+
+<p-dialog header="PrimeNG Modal" [(visible)]="showModal"
+          [closable]="true" [modal]="true">
+    <dsv-provider-service-modal [providerId]="providerId" (providerAdded)="handleProviderAdded($event)"></dsv-provider-service-modal>
+</p-dialog>
