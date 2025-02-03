@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Observable, switchMap} from "rxjs";
+import {BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Observable, switchMap, take} from "rxjs";
 import {ResultSet} from "../../../../shared/models/result-set";
 import {IProviderService} from "../../models/provider-service";
 import {ProviderServicesService} from "../../services/provider-services.service";
 import {TableModule} from "primeng/table";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, DecimalPipe, NgIf} from "@angular/common";
 import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
 import {ProviderServiceModalComponent} from "../provider-service-modal/provider-service-modal.component";
@@ -19,6 +19,7 @@ import {MessageService} from "primeng/api";
         Button,
         Dialog,
         ProviderServiceModalComponent,
+        CurrencyPipe,
     ],
     templateUrl: './provider-services.component.html',
     styleUrl: './provider-services.component.scss'
@@ -67,5 +68,18 @@ export class ProviderServicesComponent implements OnInit {
         this.showModal = false;
 
         this.pagination.next(0);
+    }
+
+    deleteProviderService(providerService: IProviderService): void {
+        this.providerServicesService.deleteProviderService(this.providerId!, providerService.id).pipe(
+            take(1)
+        ).subscribe(() => {
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Info', detail: `Provider service '${providerService.name}' was successfully deleted`, life: 3000
+            });
+
+            this.pagination.next(0);
+        });
     }
 }

@@ -19,15 +19,14 @@
             </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-provider>
+        <ng-template pTemplate="body" let-providerService>
             <tr>
-                <td>{{ provider.name }}</td>
-                <td>{{ provider.durationMinutes }} (minutes)</td>
-                <td>{{ provider.pricePerSession }} $</td>
-                <td>{{ provider.pricePerHour }} $</td>
+                <td>{{ providerService.name }}</td>
+                <td>{{ providerService.durationMinutes }} (minutes)</td>
+                <td>{{ providerService.pricePerSession | currency }} $</td>
+                <td>{{ providerService.pricePerHour | currency }} $</td>
                 <td>
-<!--                    <p-button (onClick)="onRowClick(provider)" label="Edit"></p-button>-->
-<!--                    <p-button class="delete-btn" severity="danger" (onClick)="deleteProvider(provider)" label="Delete"></p-button>-->
+                    <p-button class="delete-btn" severity="danger" (onClick)="deleteProviderService(providerService)" label="Delete"></p-button>
                 </td>
             </tr>
         </ng-template>

@@ -27,8 +27,8 @@ export class ProvidersService {
     return this.httpClient.put<IProvider>(`${environment.apiUrl}/providers/${id}`, model);
   }
 
-  deleteProvider(id: number): Observable<IProvider> {
-    return this.httpClient.delete<IProvider>(`${environment.apiUrl}/providers/${id}`);
+  deleteProvider(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/providers/${id}`);
   }
 
 }

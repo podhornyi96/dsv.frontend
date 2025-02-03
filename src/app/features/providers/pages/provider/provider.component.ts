@@ -65,6 +65,7 @@ export class ProviderComponent implements OnInit {
             email: provider.email,
             description: provider.description,
         }).pipe(take(1)).subscribe((provider) => {
+            this.providerId = provider.id;
             this.providerForm?.get('id')?.patchValue(provider.id);
             this.messageService.add({
                 severity: 'success',

@@ -5,6 +5,7 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {IProviderService} from "../models/provider-service";
 import {ICreateProviderService} from "../models/create-provider-service";
+import {IProvider} from "../models/provider";
 
 @Injectable()
 export class ProviderServicesService {
@@ -18,5 +19,9 @@ export class ProviderServicesService {
 
     createProviderService(providerId: number, model: ICreateProviderService): Observable<IProviderService> {
         return this.httpClient.post<IProviderService>(`${environment.apiUrl}/providers/${providerId}/services`, model);
+    }
+
+    deleteProviderService(providerId: number, id: number): Observable<void> {
+        return this.httpClient.delete<void>(`${environment.apiUrl}/providers/${providerId}/services/${id}`);
     }
 }
