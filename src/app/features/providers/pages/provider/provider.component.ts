@@ -12,90 +12,96 @@ import {Toast} from "primeng/toast";
 import {MessageService} from "primeng/api";
 
 @Component({
-  selector: 'app-provider',
-  imports: [
-    ReactiveFormsModule,
-    NgIf,
-    InputText,
-    InputTextarea,
-    ButtonDirective,
-    Toast
-  ],
-  templateUrl: './provider.component.html',
-  styleUrl: './provider.component.scss'
+    selector: 'app-provider',
+    imports: [
+        ReactiveFormsModule,
+        NgIf,
+        InputText,
+        InputTextarea,
+        ButtonDirective,
+        Toast
+    ],
+    templateUrl: './provider.component.html',
+    styleUrl: './provider.component.scss'
 })
 export class ProviderComponent implements OnInit {
-  userForm?: FormGroup;
+    userForm?: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              private providerService: ProvidersService,
-              private route: ActivatedRoute,
-              private messageService: MessageService) {}
-
-  ngOnInit() {
-    const providerId = +this.route.snapshot.params['id'];
-
-    if (providerId) {
-      this.loadProvider(providerId);
-    } else {
-      this.buildForm();
+    constructor(private fb: FormBuilder,
+                private providerService: ProvidersService,
+                private route: ActivatedRoute,
+                private messageService: MessageService) {
     }
-  }
 
-  onSubmit() {
-    const isEdit = !!this.userForm?.get('id')?.value;
+    ngOnInit() {
+        const providerId = +this.route.snapshot.params['id'];
 
-    if (isEdit) {
-      this.editProvider();
-    } else {
-      this.createProvider();
+        if (providerId) {
+            this.loadProvider(providerId);
+        } else {
+            this.buildForm();
+        }
     }
-  }
 
-  private createProvider(): void {
-    const provider = this.userForm?.getRawValue();
+    onSubmit() {
+        const isEdit = !!this.userForm?.get('id')?.value;
 
-    this.providerService.createProvider({
-      firstName: provider.firstName,
-      lastName: provider.lastName,
-      email: provider.email,
-      description: provider.description,
-    }).pipe(take(1)).subscribe(() => {
-      this.messageService.add({ severity: 'success',
-        summary: 'Info', detail: 'Provider was created successfully', life: 3000 })
-    });
-  }
+        if (isEdit) {
+            this.editProvider();
+        } else {
+            this.createProvider();
+        }
+    }
 
-  private editProvider(): void {
-    const provider = this.userForm?.getRawValue();
+    private createProvider(): void {
+        const provider = this.userForm?.getRawValue();
 
-    this.providerService.editProvider(provider.id, {
-      id: provider.id,
-      firstName: provider.firstName,
-      lastName: provider.lastName,
-      email: provider.email,
-      description: provider.description,
-    }).pipe(take(1)).subscribe(() => {
-      this.messageService.add({ severity: 'success',
-        summary: 'Info', detail: 'Provider was updated successfully', life: 3000 })
-    });
-  }
+        this.providerService.createProvider({
+            firstName: provider.firstName,
+            lastName: provider.lastName,
+            email: provider.email,
+            description: provider.description,
+        }).pipe(take(1)).subscribe((provider) => {
+            this.userForm?.get('id')?.patchValue(provider.id);
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Info', detail: 'Provider was created successfully', life: 3000
+            })
+        });
+    }
 
-  private loadProvider(id: number): void {
-    this.providerService.getProvider(id).pipe(
-        take(1)
-    ).subscribe((provider) => {
-      this.buildForm(provider);
-    })
-  }
+    private editProvider(): void {
+        const provider = this.userForm?.getRawValue();
 
-  private buildForm(provider?: IProvider): void {
-    this.userForm = this.fb.group({
-      id: [provider?.id ?? '',],
-      firstName: [provider?.firstName ?? '', Validators.required],
-      lastName: [provider?.lastName ?? '', Validators.required],
-      email: [provider?.email ?? '', [Validators.required, Validators.email]],
-      description: [provider?.description ?? ''],
-    });
-  }
+        this.providerService.editProvider(provider.id, {
+            id: provider.id,
+            firstName: provider.firstName,
+            lastName: provider.lastName,
+            email: provider.email,
+            description: provider.description,
+        }).pipe(take(1)).subscribe(() => {
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Info', detail: 'Provider was updated successfully', life: 3000
+            })
+        });
+    }
+
+    private loadProvider(id: number): void {
+        this.providerService.getProvider(id).pipe(
+            take(1)
+        ).subscribe((provider) => {
+            this.buildForm(provider);
+        })
+    }
+
+    private buildForm(provider?: IProvider): void {
+        this.userForm = this.fb.group({
+            id: [provider?.id ?? '',],
+            firstName: [provider?.firstName ?? '', Validators.required],
+            lastName: [provider?.lastName ?? '', Validators.required],
+            email: [provider?.email ?? '', [Validators.required, Validators.email]],
+            description: [provider?.description ?? ''],
+        });
+    }
 }

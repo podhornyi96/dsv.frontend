@@ -27,8 +27,11 @@
                 <td>{{ provider.email }}</td>
                 <td>
                     <p-button (onClick)="onRowClick(provider)" label="Edit"></p-button>
+                    <p-button class="delete-btn" severity="danger" (onClick)="deleteProvider(provider)" label="Delete"></p-button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </ng-container>
+
+<p-toast />
