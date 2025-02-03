@@ -1,7 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {ProvidersService} from "../../services/providers.service";
-import {BehaviorSubject, catchError, EMPTY, finalize, Observable, switchMap, take} from "rxjs";
+import {
+    BehaviorSubject,
+    catchError,
+    debounceTime,
+    distinctUntilChanged,
+    EMPTY,
+    finalize,
+    Observable,
+    switchMap,
+    take
+} from "rxjs";
 import {ResultSet} from "../../../../shared/models/result-set";
 import {IProvider} from "../../models/provider";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -9,6 +19,8 @@ import {Button} from "primeng/button";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
 import {Toast} from "primeng/toast";
+import {IconField} from "primeng/iconfield";
+import {InputText} from "primeng/inputtext";
 
 
 @Component({
@@ -19,6 +31,8 @@ import {Toast} from "primeng/toast";
         NgIf,
         Button,
         Toast,
+        IconField,
+        InputText,
     ],
     templateUrl: './providers-list.component.html',
     styleUrl: './providers-list.component.scss'
@@ -43,6 +57,13 @@ export class ProvidersListComponent implements OnInit {
 
     ngOnInit(): void {
         this.listerPageChange();
+    }
+
+    onSearch(event: any): void {
+        const term = event.value;
+
+        const pagingInfo = this.pagination.getValue();
+        this.pagination.next({...pagingInfo, term})
     }
 
     onRowClick(provider: IProvider): void {
@@ -85,6 +106,8 @@ export class ProvidersListComponent implements OnInit {
 
     private listerPageChange(): void {
         this.providers$ = this.pagination$.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
             switchMap(({offset, term}) => {
                 return this.providersService.getProviders(term, offset, this.rows).pipe(
                     finalize(() => this.loading = false)
