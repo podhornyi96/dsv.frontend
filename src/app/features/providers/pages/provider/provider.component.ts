@@ -10,6 +10,7 @@ import {ProvidersService} from "../../services/providers.service";
 import {take} from "rxjs";
 import {Toast} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {ProviderServicesComponent} from "../../components/provider-services/provider-services.component";
 
 @Component({
     selector: 'app-provider',
@@ -19,13 +20,15 @@ import {MessageService} from "primeng/api";
         InputText,
         InputTextarea,
         ButtonDirective,
-        Toast
+        Toast,
+        ProviderServicesComponent
     ],
     templateUrl: './provider.component.html',
     styleUrl: './provider.component.scss'
 })
 export class ProviderComponent implements OnInit {
     userForm?: FormGroup;
+    providerId?: number;
 
     constructor(private fb: FormBuilder,
                 private providerService: ProvidersService,
@@ -34,10 +37,10 @@ export class ProviderComponent implements OnInit {
     }
 
     ngOnInit() {
-        const providerId = +this.route.snapshot.params['id'];
+        this.providerId = +this.route.snapshot.params['id'];
 
-        if (providerId) {
-            this.loadProvider(providerId);
+        if (this.providerId) {
+            this.loadProvider(this.providerId);
         } else {
             this.buildForm();
         }

@@ -37,4 +37,11 @@
     </div>
 }
 
+<div class="card-container">
+    @if (providerId) {
+        <dsv-provider-services [providerId]="providerId"></dsv-provider-services>
+    }
+</div>
+
+
 <p-toast />

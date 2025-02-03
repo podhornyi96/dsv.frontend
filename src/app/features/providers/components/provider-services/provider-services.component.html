@@ -1,0 +1,35 @@
+
+<ng-container *ngIf="providerServices$ | async as data">
+
+    <p-table [value]="data.items ?? []"
+             [paginator]="true"
+             [rows]="rows"
+             [lazy]="true"
+             [totalRecords]="data.totalCount ?? 0"
+             (onLazyLoad)="onPage($event)">
+
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name </th>
+                <th>Duration minutes </th>
+                <th>Price per session </th>
+                <th>Price per hour </th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-provider>
+            <tr>
+                <td>{{ provider.name }}</td>
+                <td>{{ provider.durationMinutes }} (minutes)</td>
+                <td>{{ provider.pricePerSession }} $</td>
+                <td>{{ provider.pricePerHour }} $</td>
+                <td>
+<!--                    <p-button (onClick)="onRowClick(provider)" label="Edit"></p-button>-->
+<!--                    <p-button class="delete-btn" severity="danger" (onClick)="deleteProvider(provider)" label="Delete"></p-button>-->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</ng-container>
